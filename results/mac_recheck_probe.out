@@ -1,0 +1,7 @@
+leaf full6_12 10397: sha256 matches; ledger solve+check 2016.2s
+  cadical exit 20 [431.9s wall, 427.8s CPU, 318 MiB]; proof 2226.5 MB
+  cake_lpr CML_HEAP_SIZE=1024: s VERIFIED UNSAT [69.1s wall, 69.1s CPU, 1029 MiB]
+  cake_lpr CML_HEAP_SIZE=2048: s VERIFIED UNSAT [59.8s wall, 59.8s CPU, 2053 MiB]
+  cake_lpr CML_HEAP_SIZE=4096: s VERIFIED UNSAT [58.7s wall, 58.7s CPU, 4101 MiB]
+  cake_lpr CML_HEAP_SIZE=8192: s VERIFIED UNSAT [55.6s wall, 55.4s CPU, 8197 MiB]
+  lratdirect: s VERIFIED UNSAT (10787636 actions) [246.8s wall, 246.7s CPU, 624 MiB]

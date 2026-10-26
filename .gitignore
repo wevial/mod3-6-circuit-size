@@ -1,0 +1,4 @@
+work/
+lean/.lake/
+lean/direct/.lake/
+__pycache__/

@@ -1,0 +1,25 @@
+# `lratdirect`, `cnfexport` and `lratcheck` without Mathlib: these executables import only Std and
+# Std-only files of ../Garden, so they build with the Lean toolchain alone (no Mathlib, no network):
+#   cd lean/direct && lake build      # binaries in .lake/build/bin/
+# The sources are the parent directory's; ../lakefile.toml builds the same executables alongside
+# Mathlib. reproduce.sh uses this package for the checkers.
+name = "garden-direct"
+srcDir = ".."
+defaultTargets = ["lratdirect", "cnfexport", "lratcheck"]
+
+[[lean_lib]]
+name = "GardenDirect"
+roots = ["Garden.CnfGen", "Garden.CnfLeaves", "Garden.CnfSpecs", "Garden.LratStream",
+         "Garden.LratDirect"]
+
+[[lean_exe]]
+name = "lratdirect"
+root = "LratDirect"
+
+[[lean_exe]]
+name = "cnfexport"
+root = "CnfExport"
+
+[[lean_exe]]
+name = "lratcheck"
+root = "LratCheck"

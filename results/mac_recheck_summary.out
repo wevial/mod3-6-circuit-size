@@ -1,0 +1,39 @@
+# summary 2026-10-25T15:18:13Z
+scan: 92/92 CNFs OK (sha256 matched, CaDiCaL exit 20, cake_lpr `s VERIFIED UNSAT`, lratdirect `s VERIFIED UNSAT`)
+  best3_0: 2/2
+  best3_1: 3/3
+  best3_2: 3/3
+  best4_0: 6/6
+  best4_1: 6/6
+  best4_2: 5/5
+  best5_0: 8/8
+  best5_1: 8/8
+  best5_2: 8/8
+  elim6: 11/11
+  restr3_0: 3/3
+  restr3_1: 3/3
+  restr3_2: 2/2
+  restr4_0: 6/6
+  restr4_1: 5/5
+  restr4_pq: 6/6
+  w2best: 7/7
+leaf: 13347/13347 CNFs OK (sha256 matched, CaDiCaL exit 20, cake_lpr `s VERIFIED UNSAT`, lratdirect `s VERIFIED UNSAT`)
+  cube5_0: 60/60
+  cube5_2: 60/60
+  full6_12: 13127/13127
+  w2cube_8: 50/50
+  w2cube_9: 50/50
+FAIL lines: 0
+times over OK lines, hours: solve 67.4 wall / 66.4 CPU; cake_lpr 21.8 / 15.9; lratdirect 46.6 / 46.1; ledger solve+check 98.7
+proofs written and deleted: 916.9 GB
+peak RSS, CaDiCaL: 431 MiB (leaf full6_12 2617)
+peak RSS, cake_lpr: 2055 MiB (leaf full6_12 7037)
+peak RSS, lratdirect: 688 MiB (leaf full6_12 10389)
+bound on concurrent RSS (sum of the peaks of CNFs whose runs overlap): 42.2 GiB
+sessions:
+  # session 2026-10-25T03:40:16Z pid 88055 pins 7544ad000c25a83da37ce74dc9423076f16ac0578283f5926c1228d3c4a65065 workers 12 mem_budget 28000000000 disk_floor 55000000000: 0 done, 13439 to do
+  # end 2026-10-25T15:15:16Z: all done; 0 left; 0 failed this session
+
+# driver.log:
+2026-10-25T03:40:16Z: 0 done, 13439 to do, 12 workers
+2026-10-25T15:15:16Z: stopped: all done; 0 left, 0 failed

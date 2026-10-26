@@ -1,0 +1,5 @@
+pins 7544ad000c25a83da37ce74dc9423076f16ac0578283f5926c1228d3c4a65065 (the run's session header names the same)
+leaf full6_12 6844: header p cnf 16517 646237, cube 16 0|17 0|-18 0|94 0|183 0|291 0|; leaf full6_12 6843: header p cnf 16517 646237, cube 16 0|17 0|-18 0|94 0|183 0|290 0|
+base: leaf full6_12 6844: cadical exit 20; cake_lpr s VERIFIED UNSAT; lratdirect s VERIFIED UNSAT (1563797 actions) -> accepted by both
+  proof of leaf full6_12 6844 given as leaf full6_12 6843: cake_lpr exit 0: c Checking failed at line: 1425. Reason: clause index has no reduction sequence: 267947; lratdirect exit 1: s NOT VERIFIED (rupFailure; leaf full6_12 6843: 646237 clauses, 16517 vars; binary LRAT, 58038 actions; 579 ms) -> both rejected explicitly
+CONTROL PASSED

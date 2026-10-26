@@ -1,0 +1,29 @@
+name = "mod3_6"
+defaultTargets = ["Garden"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.33.1"
+
+# The import closure of CnfRuns.mod3_6_size_13, DirectRuns.mod3_6_size_13_direct and
+# Mod3Upper / CircuitDual: 19 files under Garden/, unchanged from the research repository.
+[[lean_lib]]
+name = "Garden"
+roots = ["Garden.CnfRuns", "Garden.DirectRuns"]
+globs = ["Garden.+"]
+
+# Streams a binary LRAT proof through Lean core's verified checker (Garden/LratStream.lean).
+[[lean_exe]]
+name = "lratcheck"
+root = "LratCheck"
+
+# Writes the 22 SAT runs' CNFs, generated in Lean (Garden/CnfGen.lean), as DIMACS.
+[[lean_exe]]
+name = "cnfexport"
+root = "CnfExport"
+
+# Checks an LRAT proof against a run's CNF built in memory (Garden/LratDirect.lean): no DIMACS file.
+[[lean_exe]]
+name = "lratdirect"
+root = "LratDirect"

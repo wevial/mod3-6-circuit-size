@@ -1,0 +1,15 @@
+17	[-16, -17, 18, 83, 188]	UNSAT	certified	solve+check=1.6s	s VERIFIED UNSAT (1877 actions, 1566 ms)	d9c539506c1813b867d96c9a014638b9b6f3fca70032fb76dd93217fb1ce9eab
+13	[-16, -17, 18, 83, 184]	UNSAT	certified	solve+check=10.5s	s VERIFIED UNSAT (865718 actions, 10488 ms)	61488921bad2a8ed741cbb388c02646c7cc6264211e60ea2891a7eec76e9889d
+16	[-16, -17, 18, 83, 187]	UNSAT	certified	solve+check=10.5s	s VERIFIED UNSAT (904697 actions, 10535 ms)	a45c3c7727221cc23ef543eac5c3f18d479da30ddb04b5377fb50b97d0db7b52
+40	[-16, -17, 18, 84, 183]	UNSAT	certified	solve+check=536.2s	s VERIFIED UNSAT (7435536 actions, 536143 ms)	188e8ad6232ded8d4a02c5a30043fc8b18b22246cdf885f9c77f771d054bd3e8
+36	[-16, -17, 18, 84, 179]	TIMEOUT	NOT-certified	solve+check=600.1s		7fd32034af774cccc1b12e0ac9e85200958a7c1f494d2a19df4f6fdd72d2825c
+41	[-16, -17, 18, 84, 184]	TIMEOUT	NOT-certified	solve+check=600.1s		1be9008bbd318fa7791f34b1f47f9062b184d7cf0d235301c81a018d81797477
+36	[-16, -17, 18, 84, 179]	TIMEOUT	NOT-certified	solve+check=60.1s		7fd32034af774cccc1b12e0ac9e85200958a7c1f494d2a19df4f6fdd72d2825c
+46	[-16, -17, 18, 84, 189]	TIMEOUT	NOT-certified	solve+check=60.1s		d44dc6b37b530206ce73650ee857791e8030334f6fc49d316a83e56fe2e7ced0
+41	[-16, -17, 18, 84, 184]	TIMEOUT	NOT-certified	solve+check=60.1s		1be9008bbd318fa7791f34b1f47f9062b184d7cf0d235301c81a018d81797477
+49	[-16, -17, 18, 84, 192]	TIMEOUT	NOT-certified	solve+check=60.1s		df7d3abaca045b50eb771f9de6a85118ddc6a9915027f9f6dbdbe52ff222d627
+48	[-16, -17, 18, 84, 191]	TIMEOUT	NOT-certified	solve+check=60.2s		6659b091a1aed60c44b4e0fc382c77c381af8de44d68b63ebea0ed6834e63923
+174	[-16, -17, 18, 89, 177]	TIMEOUT	NOT-certified	solve+check=60.2s		54bfa1c46ca73cddf26a3f387e5d0b606080125ce4e42f6f9e5f9ccd0a04df24
+181	[-16, -17, 18, 89, 184]	TIMEOUT	NOT-certified	solve+check=60.1s		1ad6fdae81eb24b5451e4e3f8cc72c0029fcc458fb2ae46971e3d2a9fb67f560
+188	[-16, -17, 18, 89, 191]	TIMEOUT	NOT-certified	solve+check=60.1s		7dfd80eea34128f51d073c0891751e6e3e27fd3eb96759da40a70ee452e505c0
+186	[-16, -17, 18, 89, 189]	TIMEOUT	NOT-certified	solve+check=60.1s		0853e302120d081e8c9893eab8f203cfbd9c59b68036b8ef8d1b8cda77ed4801

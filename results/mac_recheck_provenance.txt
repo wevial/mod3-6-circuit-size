@@ -1,0 +1,43 @@
+# mac_recheck_provenance.txt (2026-10-25 15:54 UTC): supplements mac_recheck_pins.txt, after review.
+#
+# mac_recheck_pins.txt was meant to pin the Lean sources lratdirect and cnfexport were built from, but
+# mac_recheck.py's pinned_files() walks dirname(dirname(dirname(BIN))) = ~/work/lean-direct/direct,
+# not ~/work/lean-direct, so it pinned only direct/lakefile.toml and direct/lake-manifest.json. The
+# binaries themselves are pinned there (lratdirect e7809015..., cnfexport f4a293c0...), and the run's
+# session header records that pins file's sha256 (7544ad00...). The pins file and the driver are left
+# exactly as they ran; this file adds what they missed, measured on the Mac after the run.
+#
+# 1. The source files in ~/work/lean-direct (sha256 on the Mac) equal research/lean at
+#    f6c4b9cf6540bfc599c82bd618eb7a0e94bb32d0 (sha256 of `git show f6c4b9c:research/lean/<file>`),
+#    all 10:
+#    36e0122f772145c33af89576c49faf4dfb4ece0855a0975e67ca1f78496d8b52  lean-direct/Garden/LratDirect.lean
+#    3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71  lean-direct/lean-toolchain
+#    62b42448a11a5db045035d766409ec52422832b0c5b62e209d404e748dd95b59  lean-direct/LratDirect.lean
+#    8f6678d50092721773af6c74f7c73611b83fcf66a7eef73d363d81cc8f49d681  lean-direct/direct/lake-manifest.json
+#    aab06d19d360bafba96f32253601688633244f8a0646d8eedd50cd22aa6cc271  lean-direct/Garden/CnfSpecs.lean
+#    add228f26b132566bc57c66d6ab572ffbc14dac64dff96957ebcf670d5226320  lean-direct/Garden/CnfLeaves.lean
+#    bac464ca4817903bb2b08cc12833621400cf8625d34c44d7783ebf2da62879cd  lean-direct/Garden/CnfGen.lean
+#    c9efa79f9e5afc50190c5521db6d34d088ce2273a8735799c4116638b9bdf005  lean-direct/CnfExport.lean
+#    d812e28a0d484869d4885ae29debcc7284c1ddccaac47e96e4b79cab06c13f30  lean-direct/direct/lakefile.toml
+#    fc8b0b6f98913761437656b87788a5a1c7c36e4921d32f8ee067743c8481c713  lean-direct/Garden/LratStream.lean
+#    ~/work/lean-direct/SOURCE: "garden commit f6c4b9cf6540bfc599c82bd618eb7a0e94bb32d0 (branch
+#    circuits-direct-check), research/lean/ via git archive"
+#
+# 2. Rebuild identity, all on the Mac with tools/lean-4.33.1-darwin_aarch64 (`cd direct && lake build`):
+#    lean-direct (f6c4b9c, the run's)  lratdirect e7809015b1c470e6a4f08fe58f3b1d8972617809a09c4f3d8d251a9b85214ed5
+#                                      cnfexport  f4a293c0996d37ae3282620f3441a5896e39b03abe3c3950a5e689291bc4910e
+#    tests/lean-direct-main (28e66be)  the same two sha256
+#    tests/lean-direct-c9c51d4         the same two sha256
+#    main's research/lean differs from f6c4b9c's only in README.md and direct/lakefile.toml (a comment
+#    and an added lratcheck target); every Lean source the two executables are built from has the same
+#    git blob (`git diff --name-only f6c4b9c 28e66be -- research/lean`).
+#
+# 3. cake_lpr: a rebuild of a4323b20's basis_ffi.c + cake_lpr_arm8.S with
+#    `gcc basis_ffi.c cake_lpr_arm8.S -o cake_lpr -std=c99` (Apple clang 21.0.0) gives the pinned
+#    b4edecd63f55339a0ce50747e02baa1e7987e90dc600514f5862f4ea99238df2.
+#
+# 4. The Python that ran mac_recheck.py (not in the pins):
+#    /Applications/Xcode.app/Contents/Developer/usr/bin/python3
+#    3.9.6
+#    dff595035109e19c43c4b3e73ee08b5f4651e719f25f8b4713f819d28964dc19  /Applications/Xcode.app/Contents/Developer/usr/bin/python3
+#    b8763cf250e607a778bb4603cecb5b90338814d0a3dfcba0d57b1de242f610e9  /usr/bin/python3
