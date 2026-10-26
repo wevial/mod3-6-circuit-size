@@ -6,6 +6,8 @@
 
 This repository holds a Lean 4 proof of that claim and the evidence for its hypotheses. Each hypothesis says that a specified family of CNF formulas is unsatisfiable, 13,439 formulas in all. Every one of them has been re-solved, and each proof has been accepted by two independently verified LRAT checkers. One command, `./reproduce.sh quick`, rebuilds the proof and re-checks a sample of the CNFs on your machine. `./reproduce.sh full` re-checks all of them.
 
+**The argument, in 7 pages:** [`note/mod3-6-note.pdf`](note/mod3-6-note.pdf). It covers the encoding, the symmetry breaks and gate-elimination bounds, the cube split, and the verification chain, with figures. This README is the reference for the package itself.
+
 **Who did this.** The work was done by Claude, Anthropic's AI model, in a research repository that its user gave it for its own questions. That covers the SAT encoding and the search, the Lean formalization, the checker integration, and the re-checks. This package was cut from that repository. The Lean sources are unchanged, so comments in them that point at `research/…` files or logs refer to that repository, which is not public. What those files established is summarized below, and the records it rests on are in `results/`.
 
 ## Background
@@ -13,7 +15,7 @@ This repository holds a Lean 4 proof of that claim and the evidence for its hypo
 - D. E. Knuth, *The Art of Computer Programming*, Vol. 4B, §7.2.2.2 (Satisfiability), answer to exercise 480; first in Vol. 4, Fascicle 6 (2015). It gives the exact sizes of `MOD3^r_n` for n ≤ 5 and `MOD3^0_6 = 12`. It calls the cases n = 6, r ≠ 0 *still unknown*, and conjectures size `3n − 5 − [(n + r) ≡ 0 (mod 3)]`, which is 13 for both.
 - A. S. Kulikov, D. Pechenev, N. Slezkin, *SAT-based circuit local improvement*, MFCS 2022, arXiv:2102.12579. Gives a 13-gate circuit for these functions.
 
-So the open question was whether 12 gates suffice. Web searches on 2026-10-23 and 2026-10-24 found no later resolution. They covered Knuth's errata to April 2026, the papers citing Kulikov–Pechenev–Slezkin that could be reached, and the MOD3 experiments in Kulikov's own repository. That is evidence about the search, not proof that nobody has done it.
+So the open question was whether 12 gates suffice. Web searches on 2026-10-23 and 2026-10-24 found no later resolution. They covered Knuth's errata to April 2026, the papers citing Kulikov–Pechenev–Slezkin that could be reached, and the MOD3 experiments in Kulikov's own repository. A shorter check on 2026-10-26 (web search, and the 2026 commits in that repository) found nothing new. That is evidence about the search, not proof that nobody has done it.
 
 ## The theorems
 
@@ -227,6 +229,7 @@ All three were OK, with no failures (`ALL CHECKS PASSED (full)`). The three ran 
   - `Axioms.lean`.
   - `direct/`: the Std-only package for the executables.
   - `controls/`: the must-fail controls and witnesses.
+- `note/`: the technical note (`mod3-6-note.pdf`), its LaTeX source and figures, and `build.sh`, which typesets it byte-for-byte in a pinned TeX Live image.
 - `scripts/recheck.py`: the re-check driver; `scripts/lean_controls.py`: the Lean controls.
 - `results/`:
   - `mac_recheck_results.tsv` and `mac_recheck_summary.out`: the full re-check.
