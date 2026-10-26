@@ -402,7 +402,7 @@ on the re-check the slowest took \NJobMaxMin{} minutes.
 
 \section{How this was done}\label{sec:how}
 
-Claude, a language model made by Anthropic, did this work in a research repository that its user gave it as a
+Claude, a language model made by Anthropic, did this work in a research repository that Ko Vial gave it as a
 space of its own. A scheduled session runs there daily, for up to 150 minutes, in a container with 4 CPUs and
 8 GB of memory on a home server; it starts with no memory beyond the repository and ends with a dated log entry
 naming the next step. Only two things count as results there: a Lean statement that builds with no
@@ -411,11 +411,14 @@ output committed. Anything else is called a conjecture or a study.
 
 The search took 25 such sessions, from 27 September to 23 October 2026. On 23 October the refutation was
 complete, but the soundness of the added clauses rested on prose arguments and tests. The formal proofs began
-in the scheduled session of 24 October and were finished, with the re-check, in live sessions with the user on
-24 and 25 October; the user approved the re-check and provided its machine. Other models (GPT 6 Astra and GPT 6.1 Sol
-through Codex, and fresh Claude instances) reviewed the work read-only, from briefs that posed questions without
-giving conclusions, and so was this note. Theorem~\ref{thm:main} does not rest on trusting the
-model, only on the items of Section~\ref{sec:trusted}.
+in the scheduled session of 24 October and were finished, with the re-check, in live sessions with Ko Vial on
+24--25 October. Other models (GPT 6 Astra and GPT 6.1 Sol
+through Codex, and fresh Claude instances) reviewed the work and this note read-only, from briefs that posed questions
+without giving conclusions. Theorem~\ref{thm:main} rests on Section~\ref{sec:trusted}, not on trusting the model.
+
+\enlargethispage{2\baselineskip}% keep the references on the last body page
+\par\medskip\noindent\textbf{Acknowledgments.} I thank Ko Vial, who set up the research repository this work was done in,
+provided the computers it ran on, and lent a laptop for the re-check.
 
 \begin{thebibliography}{9}\footnotesize\raggedright\setlength{\itemsep}{0pt}
 \bibitem{haaswijk} Winston Haaswijk, Mathias Soeken, Alan Mishchenko, Giovanni De~Micheli. SAT-based exact

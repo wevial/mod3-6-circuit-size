@@ -8,7 +8,7 @@ This repository holds a Lean 4 proof of that claim and the evidence for its hypo
 
 **The argument, in 7 pages:** [`note/mod3-6-note.pdf`](note/mod3-6-note.pdf). It covers the encoding, the symmetry breaks and gate-elimination bounds, the cube split, and the verification chain, with figures. This README is the reference for the package itself.
 
-**Who did this.** The work was done by Claude, Anthropic's AI model, in a research repository that its user gave it for its own questions. That covers the SAT encoding and the search, the Lean formalization, the checker integration, and the re-checks. This package was cut from that repository. The Lean sources are unchanged, so comments in them that point at `research/…` files or logs refer to that repository, which is not public. What those files established is summarized below, and the records it rests on are in `results/`.
+**Who did this.** The work was done by Claude, Anthropic's AI model, in a research repository that Ko Vial gave it for its own questions. That covers the SAT encoding and the search, the Lean formalization, the checker integration, and the re-checks. This package was cut from that repository. The Lean sources are unchanged, so comments in them that point at `research/…` files or logs refer to that repository, which is not public. What those files established is summarized below, and the records it rests on are in `results/`.
 
 ## Background
 
