@@ -56,18 +56,18 @@
 No circuit of 12 gates over the full binary basis $\Btwo$ computes $\MOD{1}{6}$ or $\MOD{2}{6}$, where
 $\MOD{r}{n}(x)=[x_1+\dots+x_n\equiv r \pmod 3]$. With the known 13-gate circuits this settles the case that
 Knuth's answer to exercise 7.2.2.2--480 calls ``still unknown'', at the value his conjecture predicts. The lower
-bound is a SAT refutation of an encoding strengthened with symmetry-breaking and gate-elimination clauses. The
-soundness of every added clause and of the CNF generator, and the step from a minimum circuit to a satisfying
-assignment, are proved in Lean~4. The result is a Lean theorem whose only hypotheses are that 22 families of
+bound comes from refuting a SAT (Boolean satisfiability) encoding strengthened with symmetry-breaking and
+gate-elimination clauses. Lean~4 proves the CNF (conjunctive normal form) generator and every added clause
+sound, and proves that a minimum circuit gives a satisfying assignment. The result is a Lean theorem whose only hypotheses are that 22 families of
 Lean-generated CNFs, \NAllCNFs{} formulas in all, are unsatisfiable. Each formula was solved again on a second
-machine, and every LRAT proof was accepted by two formally verified checkers.
+machine. Two formally verified checkers accepted every proof in the LRAT refutation format.
 \end{abstract}
 
 \section{The problem}\label{sec:problem}
 
 $\Btwo$ is the set of all 16 Boolean functions of two arguments. A circuit over $\Btwo$ on inputs
 $x_1,\dots,x_n$ is a sequence of steps $x_i = x_{j(i)} \circ_i x_{k(i)}$, $n<i\le n+s$, with $j(i),k(i)<i$ and
-$\circ_i\in\Btwo$. It computes $f$ if $x_{n+s}=f(x_1,\dots,x_n)$ for all inputs, and its size is $s$;
+$\circ_i\in\Btwo$. It computes $f$ if $x_{n+s}=f(x_1,\dots,x_n)$ for all inputs. Its size is $s$, and
 $\size(f)$ is the least size of a circuit computing $f$. As in Kulikov, Pechenev and Slezkin~\cite{kps},
 \[
 \MOD{r}{n}(x_1,\dots,x_n) = [\,x_1+\dots+x_n \equiv r \pmod 3\,],\qquad r\in\{0,1,2\},
@@ -84,8 +84,8 @@ today's solvers, is still unknown.'' He conjectures
 \size(\MOD{r}{n}) = 3n-5-[\,(n+r)\equiv 0 \pmod 3\,].
 \end{equation}
 Kulikov, Pechenev and Slezkin \cite[Theorem~1]{kps} build circuits of size~\eqref{eq:conj} from blocks
-$\mathrm{IN}_k$, $\mathrm{MID3}$ and $\mathrm{OUT}$; in particular 13 gates suffice for $n=6$, $r\in\{1,2\}$, and
-the question was whether 12 do. Knuth's values for $r=0,1,2$ are $3,4,4$ ($n=3$), $7,7,6$ ($n=4$) and $10,9,10$
+$\mathrm{IN}_k$, $\mathrm{MID3}$ and $\mathrm{OUT}$; in particular 13 gates suffice for $n=6$, $r\in\{1,2\}$.
+The question was whether 12 suffice. Knuth's values for $r=0,1,2$ are $3,4,4$ ($n=3$), $7,7,6$ ($n=4$) and $10,9,10$
 ($n=5$); all agree with \eqref{eq:conj}, and their lower bounds are re-derived inside the theorem below from
 their own SAT runs. Searches on 23 and 24 October 2026 (Knuth's errata for Volume~4B to April 2026, the reachable
 papers citing
@@ -100,15 +100,15 @@ has settled it.
 $\size(\MOD{1}{6}) = \size(\MOD{2}{6}) = 13$.
 \end{theorem}
 
-The upper bound is the circuit of Section~\ref{sec:circuit}. For $\MOD{2}{6}$ nothing more is needed:
+The circuit in Section~\ref{sec:circuit} gives the upper bound. Input negation gives the result for $\MOD{2}{6}$:
 $[\sum x_i\equiv2]=[\sum \bar x_i\equiv1]$ on six bits, and negating inputs costs no gates, because each
 negation folds into the tables of the gates that read the input (\lean{CircuitDual.mod3\_6\_size\_dual}). The
 work is to show that no 12-gate circuit computes $\MOD{1}{6}$.
 
-In Lean the theorem is \lean{CnfRuns.mod3\_6\_size\_13}, stated in a model where a gate may also read one node
-twice or read a constant, so its lower bound holds in the usual sense (Appendix~\ref{app:lean}). It has 22
-hypotheses, one per SAT run, each saying that a list of CNFs generated in Lean is unsatisfiable
-(Appendix~\ref{app:hyps}), and uses only the axioms \lean{propext}, \lean{Classical.choice} and
+The Lean theorem, \lean{CnfRuns.mod3\_6\_size\_13}, also allows a gate to read one node
+twice or read a constant. Its lower bound therefore holds in the usual sense (Appendix~\ref{app:lean}). Its 22
+hypotheses, one per SAT run, each state that a list of Lean-generated CNFs is unsatisfiable
+(Appendix~\ref{app:hyps}). It uses only the axioms \lean{propext}, \lean{Classical.choice} and
 \lean{Quot.sound}.
 
 \section{The 13-gate circuit}\label{sec:circuit}
@@ -124,11 +124,11 @@ hypotheses, one per SAT run, each saying that a list of CNFs generated in Lean i
 \end{tabular}
 \end{minipage}
 \caption{A 13-gate circuit for $\MOD{1}{6}$ (\lean{Mod3Upper.c13}). The small circle negates a wire:
-$x_{10}=x_5\wedge\bar x_8$. Drawing and list are generated from the Lean gate list, which equals the decoded
-SAT model gate by gate; the generator also evaluates the circuit on all 64 inputs.}\label{fig:circuit}
+$x_{10}=x_5\wedge\bar x_8$. The drawing and list are generated from the Lean gate list. It equals the decoded
+SAT model gate by gate. The generator also evaluates the circuit on all 64 inputs.}\label{fig:circuit}
 \end{figure}
 
-The solver found this circuit as the model of the $r=13$ control in Section~\ref{sec:cubes}, and Lean checks it
+The solver found this circuit as the model of the $r=13$ control in Section~\ref{sec:cubes}. Lean checks it
 on all 64 inputs by \lean{decide} (\lean{Mod3Upper.mod3\_1\_upper}). The upper bound was already known
 \cite{kps}, and this note does not compare the circuit with their construction.
 
@@ -139,27 +139,27 @@ synthesis \cite{haaswijk}. For each gate $x_i$, $n<i\le n+r$, there are selector
 $j<k<i$, exactly one of them true; table bits $t_i(0,1)$, $t_i(1,0)$, $t_i(1,1)$, with $t_i(0,0)=0$ (gates
 are \emph{normal}); and a value $v_{i,a}$ for each input row $a\in\{0,1\}^n$, with clauses
 $s_{ijk}\wedge v_{j,a}=p\wedge v_{k,a}=q \Rightarrow v_{i,a}=t_i(p,q)$. An output selector $o_i$ (exactly one)
-and a bit $\nu$ say $o_i\Rightarrow v_{i,a}\oplus\nu=f(a)$. Nothing is lost: in a minimum circuit every gate
-reads two distinct earlier nodes, and a gate whose table is 1 on $00$ can store its complement, the negation
-moving into its readers' tables or into $\nu$ (\lean{Reduction.shape\_of\_min}). An $r=12$ instance for $\MOD{1}{6}$ has a little
+and a bit $\nu$ say $o_i\Rightarrow v_{i,a}\oplus\nu=f(a)$. This preserves minimum circuits. Every gate in a minimum circuit
+reads two distinct earlier nodes. A gate whose table is 1 on $00$ can store its complement, with the negation
+moved into its readers' tables or into $\nu$ (\lean{Reduction.shape\_of\_min}). An $r=12$ instance for $\MOD{1}{6}$ has a little
 over 16{,}000 variables and about 640{,}000 clauses.
 
 The search scans $r=1,2,\dots$ The added clauses (Section~\ref{sec:constraints}) exclude many $r$-gate
-circuits, any with a dead gate for one, but keep a canonical form of every minimum circuit. So if the minimum
+circuits, including any with an unused gate, but keep a canonical form of every minimum circuit. So if the minimum
 size were some $r\le12$, that form would satisfy the $r$-gate instance; refuting every $r\le12$ gives
 $\size\ge13$ (\lean{Tower.lower}). For $\MOD{1}{6}$, $r\le11$ is refuted with the base clauses and \emph{elim}
 alone, each in under 2 seconds. For $r\le10$ this is classical gate elimination: setting $x_v=1$ leaves
-$\MOD{0}{5}$, of size 10, so the \emph{elim} bound $\max(r-10,0)$ is 0 and no gate may read any input. At $r=11$ the solver does real work (245{,}453 proof steps). The case
+$\MOD{0}{5}$, of size 10, so the \emph{elim} bound $\max(r-10,0)$ is 0 and no gate may read any input. At $r=11$ the solver uses 245{,}453 proof steps. The case
 $r=12$ needs all of Section~\ref{sec:constraints} and the split of Section~\ref{sec:cubes}.
 
-The CNFs in the theorem are generated in Lean (\lean{CnfGen}), by a transcription of the Python encoder that
-writes the same DIMACS bytes wherever the two were compared (every leaf of every split run, and the scans at
+Lean generates the CNFs in the theorem (\lean{CnfGen}) using a transcription of the Python encoder. The two
+write the same DIMACS bytes wherever they were compared (every leaf of every split run, and the scans at
 sampled $r$). \lean{CnfSound.adm\_sat} proves that every circuit meeting a run's constraints satisfies that
 run's CNF.
 
 \section{Symmetry breaking and gate elimination}\label{sec:constraints}
 
-The added clauses are of two kinds: some hold for \emph{some} minimum circuit, the others for \emph{every}
+One group of added clauses holds for \emph{some} minimum circuit, the other for \emph{every}
 circuit of $r$ gates computing $f$.
 
 \paragraph{Some minimum circuit.} Let $f$ be symmetric, and neither constant nor a literal.
@@ -185,11 +185,11 @@ $f\circ\sigma$ is neither constant nor a literal. Then at most $r-\size(f\circ\s
 on~$T$.
 \end{lemma}
 
-The proof deletes the redundant gates and rewires their readers. This is the gate-elimination step, counting
-every gate that becomes redundant rather than only those reading a fixed input, and fed with exact sizes one
-and two inputs down. I found no earlier use of such bounds as clauses in an exact-synthesis encoding, but the
+The proof deletes redundant gates and rewires their readers. This gate-elimination step counts
+all redundant gates, rather than only those reading a fixed input. It uses exact sizes of functions
+with one and two fewer inputs. I found no earlier use of such bounds as clauses in an exact-synthesis encoding, but the
 searches were not exhaustive, so the method should not be taken as new. In the CNF a cardinality constraint
-caps the gates marked redundant on each row set. Table~\ref{tab:bounds} lists the instances in the $r=12$ run,
+limits the number of gates marked redundant on each row set. Table~\ref{tab:bounds} lists the instances in the $r=12$ run,
 proved in \lean{Mod3SemBounds.mod3\_6\_1\_sem\_bounds}.
 
 \begin{table}[h]
@@ -207,25 +207,25 @@ clauses & rows $T$ (every $u<v$) & $f\circ\sigma$ & size & redundant, at most\\
 \emph{semeq} & $x_u=x_v$ & $w^1_5$ & $\ge10$ & 2\\
 \bottomrule
 \end{tabular}
-\caption{The gate-elimination bounds of the $r=12$ run, with the values at $r=12$. Here
+\caption{Gate-elimination bounds used in the $r=12$ run, evaluated at $r=12$. Here
 $w^q_m(y)=[\,2y_1+y_2+\dots+y_m\equiv q \pmod 3\,]$: identifying $x_u$ with $x_v$ leaves one input of weight
 two.}\label{tab:bounds}
 \end{table}
 
 \emph{elim} and \emph{elim2} count a syntactic subset of the gates \emph{sem} counts: gates reading a fixed
 input, gates reading a gate that reads a fixed input and becomes constant, and for \emph{elim2} gates reading the
-gate on $(x_u,x_v)$. Each is redundant (\lean{Mod3Lower.elim\_redundant}, \lean{elim2\_redundant}); the
-syntactic clauses propagate from the selectors, the semantic ones through the values. Under \emph{semxor}'s
+gate on $(x_u,x_v)$. Each is redundant (\lean{Mod3Lower.elim\_redundant}, \lean{elim2\_redundant}). The
+syntactic clauses propagate from the selectors; the semantic ones propagate through the values. Under \emph{semxor}'s
 $x_u=\bar x_v$ a gate $x_u\oplus x_v$ becomes constant, which fixing one input cannot do; \emph{semeq}'s
 $x_u=x_v$ keeps five inputs where \emph{semxor} keeps four, so its bound is smaller.
 
-\paragraph{Where the sizes come from.} None is assumed. Each lower bound in Table~\ref{tab:bounds} is proved inside
-the same theorem from its own SAT runs (rows 1--20 of Appendix~\ref{app:hyps}) by \lean{Tower.lower}: if for
+\paragraph{Where the sizes come from.} Each lower bound in Table~\ref{tab:bounds} is proved inside
+the same theorem from its own SAT runs (rows 1--20 of Appendix~\ref{app:hyps}); none is assumed. By \lean{Tower.lower}, if for
 every $r<s$ a run with sound added clauses refutes $r$ gates, then $\size\ge s$. The runs for $w^1_5$ use
-elimination bounds from six functions of three and four inputs (rows 12--17); the tower ends at runs with none.
-($\size(w^1_5)=10$; only $\ge10$ is used.) That bound mattered: \emph{semeq} at $r-9=3$,
+elimination bounds from six functions of three and four inputs (rows 12--17); the tower ends at runs with no elimination bounds.
+($\size(w^1_5)=10$; only $\ge10$ is used.) The stronger bound mattered: \emph{semeq} at $r-9=3$,
 from the earlier $\size(w^1_5)\ge9$, did not help on the hard cubes, while at $r-10=2$ a cube that had taken more
-than 3{,}050 CPU-seconds fell in about 10 seconds.
+than 3{,}050 CPU-seconds was refuted in about 10 seconds.
 
 \section{The cube split}\label{sec:cubes}
 
@@ -250,27 +250,27 @@ than 3{,}050 CPU-seconds fell in about 10 seconds.
 \draw[->] (c5) -- node[lab,above] {all refuted} node[lab,below] {\NTreeFiveA{} / \NTreeFiveB{} / \NTreeFiveC} (l5);
 \node[font=\small,anchor=north] at ($(l5.south)+(0,-0.15)$) {\textbf{\NTreeLeaves} leaves in all};
 \end{tikzpicture}
-\caption{The $r=12$ refutation as a tree of cubes. A cube fixes the first gate's table and the input pairs of
-the next gates; a cube that was not refuted quickly was split on the next gate's pair. Below each arrow to the
-leaves: how many the theorem takes from each clause set, without \emph{symin} and \emph{semeq} / with
+\caption{The $r=12$ refutation as a cube tree. A cube fixes the first gate's table and subsequent gates' input pairs.
+Cubes not refuted quickly were split on the next gate's pair. Counts below arrows to
+leaves show how many the theorem takes from each clause set: without \emph{symin} and \emph{semeq} / with
 \emph{symin} / with both.
 The counts are generated from the run ledgers and checked against the tree data in
 \lean{CnfLeaves}.}\label{fig:tree}
 \end{figure}
 
 With \emph{first01}, gate $x_7$ reads $(x_1,x_2)$, and its table is $\wedge$, $x_1\wedge\bar x_2$, $\oplus$ or
-$\vee$. That table and the input pairs of $x_8$ and $x_9$ split the $r=12$ instance into $4\cdot21\cdot28=2{,}352$
-cubes, each a set of unit literals added to the CNF. Cubes not refuted within a time limit were split again on the
-pair of $x_{10}$, then of $x_{11}$ (Figure~\ref{fig:tree}). Each level enumerates every value of one selector, so
-every circuit that meets the run's constraints lies in some leaf, whatever the tree's shape; \lean{CnfRuns.tree\_cover}
-proves this for any tree data. The \NTreeSThree{} cubes that
-needed splitting all begin with $x_7=x_1\oplus x_2$ (\NSplitXor) or $x_7=x_1\wedge x_2$ (\NSplitAnd), and the
+$\vee$. The table and input pairs of $x_8$ and $x_9$ split the $r=12$ instance into $4\cdot21\cdot28=2{,}352$
+cubes, each fixing variables by unit literals added to the CNF. Cubes not refuted within a time limit were split again on the
+pair of $x_{10}$, then of $x_{11}$ (Figure~\ref{fig:tree}). Each level enumerates all values of one selector. Thus
+every circuit meeting the run's constraints lies in a leaf, whatever the tree's shape; \lean{CnfRuns.tree\_cover}
+proves this for any tree data. All \NTreeSThree{} cubes that
+needed splitting begin with $x_7=x_1\oplus x_2$ (\NSplitXor) or $x_7=x_1\wedge x_2$ (\NSplitAnd), and the
 leaves under $x_1\oplus x_2$ took \NXorShare\% of the re-check's solver time on this tree. Some leaves were refuted before
 \emph{symin} or \emph{semeq} existed, so the leaves use three nested clause sets; the theorem names each leaf's
 CNF under the set that refuted it, and all three are proved sound for $r=12$ (\lean{CnfRuns.fits\_full6}).
 
-\paragraph{Positive control.} At $r=13$ the same clause set is satisfiable: one cube came back SAT in 190
-seconds, its model satisfies all 887{,}244 clauses of that cube's CNF, and it decodes to the circuit of
+\paragraph{Positive control.} At $r=13$ the same clause set is satisfiable: one cube returned SAT in 190
+seconds. Its model satisfies all 887{,}244 clauses of that cube's CNF and decodes to the circuit of
 Figure~\ref{fig:circuit} (in Lean, \lean{CnfRuns.cnf13\_sat}, under the theorem's hypotheses). This rules out a
 clause set that excludes all small circuits, but not one that excludes exactly the 12-gate ones; the soundness
 proofs rule that out.
@@ -301,8 +301,8 @@ proofs rule that out.
 \draw[->,thick] (hyp) -- (thm);
 \draw[->,thick] (lean.north -| thm.south) -- (thm.south);
 \end{tikzpicture}
-\caption{From the CNFs to the theorem. Thick boxes are formally verified. The hypotheses (double box) are
-discharged outside the Lean kernel by the checkers' runs, each of which still relies on what its box ends with.
+\caption{From the CNFs to the theorem. Thick boxes are formally verified. The checkers' runs establish the hypotheses (double box)
+outside the Lean kernel. Each checker relies on the trusted parts at the end of its box.
 Both checkers accepted all \NAllCNFs{} proofs.}\label{fig:chain}
 \end{figure}
 
@@ -310,18 +310,17 @@ The hypotheses (Appendix~\ref{app:hyps}) are 17 scans (\NScanCNFs{} CNFs) and 5 
 \NTreeLeaves{} of them the leaves of Figure~\ref{fig:tree}). On 25 October 2026 all \NAllCNFs{} were solved again
 on a second machine, an Apple M4 Pro laptop, with CaDiCaL 3.0.1 writing a proof in binary LRAT, a refutation format in which each
 derived clause lists the earlier clauses (hints) from which it follows by unit propagation. Every proof went to
-two checkers. \lean{lratdirect}
-builds the CNF in memory from the hypothesis's name and index and runs Lean core's verified LRAT checker; by
-\lean{check\_sound}, acceptance implies \lean{Unsat}, and \lean{DirectRuns.mod3\_6\_size\_13\_direct} states
-Theorem~\ref{thm:main} with acceptance as the hypothesis, so no file lies between a CNF and its verdict.
+two checkers. \lean{lratdirect} builds the CNF in memory from the hypothesis's name and index and runs Lean core's verified LRAT checker.
+\lean{check\_sound} proves acceptance implies \lean{Unsat}. \lean{DirectRuns.mod3\_6\_size\_13\_direct} states
+Theorem~\ref{thm:main} with acceptance as the hypothesis. No file lies between a CNF and its verdict.
 \lean{cake\_lpr}, verified in CakeML down to the generated assembly, its DIMACS parser included, reads the file
-\lean{cnfexport} writes; every leaf's file has the sha256 the search recorded for it. Both accepted every proof; before the run, both
+\lean{cnfexport} writes; every leaf's file has the sha256 the search recorded for it. Both accepted every proof. Before the run, both
 explicitly rejected a proof given for another CNF and proofs with one bit flipped.
 
 \section{What is still trusted}\label{sec:trusted}
 
 The solver, the proofs, the encoder, the cube covers, the symmetry breaks, the elimination bounds and the
-smaller sizes are checked or proved. What is trusted:
+smaller sizes are checked or proved. What remains trusted:
 \begin{itemize}
 \item the Lean kernel, the three standard axioms, the definitions in the statement (Appendix~\ref{app:lean}), and
   Mathlib's compiled library files;
@@ -333,8 +332,8 @@ smaller sizes are checked or proved. What is trusted:
   of the file the Python encoder wrote, a second witness for the writer;
 \item the driver script's acceptance logic and job list (every scan and leaf the hypotheses name, counted), and
   the Python that ran it; sha256, for the pinned binaries and the leaf cross-check;
-\item the results file as a record of the run: it stores each acceptance in normalized form, the exact
-  conditions having been checked by the driver as it ran; and the binaries' provenance: the pins missed the Lean
+\item the results file as a record of the run: it stores each acceptance in normalized form; the driver checked the exact
+  conditions as it ran. Also the binaries' provenance: the pins missed the Lean
   sources, and a separate record ties them to the pinned binaries by byte-identical rebuilds;
 \item the machine and operating system, which both checkers share.
 \end{itemize}
@@ -377,34 +376,34 @@ proofs & streamed & \NProofGB{} GB, \NActionsBn{}$\times10^9$ steps\\
 \bottomrule
 \end{tabular}
 \vspace{4pt}
-\captionof{table}{Cost of the \NAllCNFs{} CNFs in the theorem. The search's figure sums the recorded elapsed
-time of solving and checking (run side by side) for those CNFs only, the 92 scans from a re-solve of 24
+\captionof{table}{Cost of the \NAllCNFs{} CNFs in the theorem. The search figure sums the recorded elapsed
+time of solving and checking (run side by side) for those CNFs only. The 92 scans are from a re-solve of 24
 October; cubes later split or timed out are not counted.}\label{tab:compute}
 \end{minipage}
 \end{figure}
 
-The re-check's \NCpuTotal{} CPU-hours were \NCpuSolve{} for solving, \NCpuCake{} for \lean{cake\_lpr} and
+Of the re-check's \NCpuTotal{} CPU-hours, \NCpuSolve{} were for solving, \NCpuCake{} for \lean{cake\_lpr} and
 \NCpuDirect{} for \lean{lratdirect}. Leaf times are heavy-tailed: \NUnderOne{} of the
 \NTreeLeaves{} leaves took under a CPU-second to solve, \NOverSixty{} a minute or more, and the 100 slowest
 \NTopHundredShare\% of the solver time. The hardest leaf, \NHardRecorded{} s in the search, took \NHardSolve{} s
 to solve on the re-check, \NHardCake{} s in \lean{cake\_lpr} and \NHardDirect{} s in \lean{lratdirect}.
 
-\section{Reproducing}\label{sec:reproduce}
+\section{How to reproduce the result}\label{sec:reproduce}
 
 The Lean sources, scripts, ledgers and run records are in the repository
-\url{https://github.com/wevial/mod3-6-circuit-size}. Its \lean{reproduce.sh fetch} gets the pinned downloads;
-\lean{quick} then builds the Lean library (Lean 4.33.1 with Mathlib), which checks the theorem, the circuit and
-every soundness proof, runs the Lean controls, and re-solves the 92 scans and a seeded sample of 134 leaves with
-both checkers (36 minutes on 4 CPUs in a test); \lean{full} re-solves all \NAllCNFs{} CNFs. For each CNF the
-driver exports it with \lean{cnfexport}, solves it, and gives the proof to both checkers; it is the re-check's
-\lean{mac\_recheck.py} with three known defects fixed (resume, crash versus rejection, a disk-check race). Any one CNF can be checked alone;
+\url{https://github.com/wevial/mod3-6-circuit-size}. Run \lean{reproduce.sh fetch} for the pinned downloads.
+Then \lean{quick} builds the Lean library (Lean 4.33.1 with Mathlib), checking the theorem, circuit and
+every soundness proof. It runs the Lean controls and re-solves the 92 scans and a seeded sample of 134 leaves with
+both checkers (36 minutes on 4 CPUs in a test). Use \lean{full} to re-solve all \NAllCNFs{} CNFs.
+The driver exports each CNF with \lean{cnfexport}, solves it, and gives both checkers the proof. It is the re-check's
+\lean{mac\_recheck.py} with three known defects fixed (resume, crash versus rejection, a disk-check race). Any CNF can be checked alone;
 on the re-check the slowest took \NJobMaxMin{} minutes.
 
 \section{How this was done}\label{sec:how}
 
 Claude, a language model made by Anthropic, did this work in a research repository that Ko Vial gave it as a
-space of its own. A scheduled session runs there daily, for up to 150 minutes, in a container with 4 CPUs and
-8 GB of memory on a home server; it starts with no memory beyond the repository and ends with a dated log entry
+space of its own. Daily scheduled sessions run for up to 150 minutes in a container with 4 CPUs and
+8 GB of memory on a home server. Each session starts with no memory beyond the repository and ends with a dated log entry
 naming the next step. Only two things count as results there: a Lean statement that builds with no
 \lean{sorry}, \lean{axiom} or \lean{native\_decide}, and a script that reproduces from a clean checkout with its
 output committed. Anything else is called a conjecture or a study.
@@ -434,8 +433,8 @@ provided the computers it ran on, and lent a laptop for the re-check.
 
 \section{The 22 hypotheses}\label{app:hyps}
 
-Each row is one hypothesis of \lean{CnfRuns.mod3\_6\_size\_13}, in its order: the run's CNF is unsatisfiable at
-every listed $r$ (a scan), or every leaf CNF of the run's cube tree is (a split run). \emph{base} is \emph{sym},
+Each row gives one hypothesis of \lean{CnfRuns.mod3\_6\_size\_13}, in theorem order. A scan states that the run's CNF is unsatisfiable at
+every listed $r$. A split run states that every leaf CNF of the run's cube tree is unsatisfiable. \emph{base} is \emph{sym},
 \emph{distinct}, \emph{order}, \emph{allin}, and \emph{first01} when $f$ is symmetric; base$^-$ omits
 \emph{allin}. For $w^1_5$, symmetric only in $y_2,\dots,y_5$, \emph{symin} and \emph{table} range over those
 inputs, and \emph{sem rows} are Lemma~\ref{lem:sem} for every restriction of one or two inputs and every
@@ -457,7 +456,7 @@ Table~\ref{tab:bounds}. The last column counts CNFs; each was re-solved and acce
 
 \section{The statement in Lean}\label{app:lean}
 
-The model, from \lean{CircuitDual}; a \lean{Gate} has fields \lean{a b : ℕ} and \lean{op : Bool → Bool → Bool}.
+In \lean{CircuitDual}, a \lean{Gate} has fields \lean{a b : ℕ} and \lean{op : Bool → Bool → Bool}.
 \par{\small
 \begin{verbatim}
 def step (vals : List Bool) (g : Gate) : List Bool :=
