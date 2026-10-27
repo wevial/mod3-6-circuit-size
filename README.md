@@ -66,7 +66,7 @@ The Lean proof connects circuits to CNFs in these steps:
 - It can be put in a canonical form that satisfies the symmetry breaks: gate order, symmetric-input order, the first gate's inputs and table (`SymCanon.canonical`, `Reduction.minimal_canonical_on`).
 - Every added constraint holds in that form. The redundancy bounds `elim`, `elim2`, `sem`, `semxor` and `semeq` come from the sizes of smaller functions (`GateElim.sem_bound`, `Mod3SemBounds`, `W2SemBounds`). Those sizes are proved from their own runs (`Mod3Tower.mod3_6_lower_sat`). That is why the table includes the n = 3, 4, 5 rows and `w2_5^1`.
 - Such a circuit satisfies the generated CNF (`CnfSound.adm_sat`).
-- The cube trees cover every circuit, whatever leaves the data lists (`CnfRuns.tree_cover`).
+- The cube trees cover every circuit that meets the run's constraints, whatever leaves the data lists (`CnfRuns.tree_cover`).
 - So if all 22 CNF families are unsatisfiable, `MOD3^1_6` has size at least 13. `MOD3^2_6` follows by duality.
 
 `CnfRuns.mod3_6_size_13_lists` states the same theorem with its hypotheses taken from `scanList` and `splitList`.
@@ -132,7 +132,7 @@ The record relies on the following:
 - **sha256**, for the pins and the DIMACS-to-ledger comparison.
 - **The machine and macOS**, common to both checkers.
 
-Given the shared parts (the job list, the driver, the record, the machine), a wrong verdict needs both checkers' own trusted parts to fail on the same CNF. The solver needs no trust, because its proofs are checked.
+Given the shared parts (the job list, the driver, the record, the machine, and, for the 92 scans, the Lean compiler), a wrong verdict needs both checkers' own trusted parts to fail on the same CNF. The solver needs no trust, because its proofs are checked.
 
 **When you run `reproduce.sh` here**, the record above is re-established on your machine, partly in `quick` and completely in `full`. In place of the record, the Mac and its Python, you then trust:
 - your machine;

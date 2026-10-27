@@ -338,9 +338,12 @@ smaller sizes are checked or proved. What remains trusted:
 \item the machine and operating system, which both checkers share.
 \end{itemize}
 The Lean compiler appears in both routes, through \lean{cnfexport}'s writer. Given what the two routes share
-(the job list and the driver's bookkeeping, the run record, the machine), a wrong verdict would need both
-checkers' own trusted parts to fail on the same CNF. Running one checker on other hardware would remove the
-shared machine; that has not been done.
+(the job list and the driver's bookkeeping, the run record, the machine, and, for the 92 scans, the Lean
+compiler), a wrong verdict would need both checkers' own trusted parts to fail on the same CNF. For every
+leaf, the ledger's sha256 ties \lean{cake\_lpr}'s input to bytes the Lean compiler did not produce.
+Running one checker on other hardware would remove the shared machine. That has been done only for a
+sample: on 26 October, on an x86-64 machine, both checkers accepted new proofs for the 92 scans, a seeded
+sample of 134 leaves and the three hardest leaves; the other leaves were checked only on the Mac.
 
 \section{Computation}\label{sec:computation}
 
